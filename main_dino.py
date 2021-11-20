@@ -175,7 +175,9 @@ def train_dino(args):
     elif args.arch in torchvision_models.__dict__.keys():
         student = torchvision_models.__dict__[args.arch]()
         teacher = torchvision_models.__dict__[args.arch]()
-        embed_dim = student.fc.weight.shape[1]
+        # may need to modify this line of code for different model
+        # embed_dim = student.fc.weight.shape[1]
+        embed_dim = student.classifier[1].in_features
     else:
         print(f"Unknow architecture: {args.arch}")
 
