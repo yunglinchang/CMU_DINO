@@ -177,7 +177,7 @@ def train_dino(args):
         teacher = torchvision_models.__dict__[args.arch]()
         # may need to modify this line of code for different model
         # embed_dim = student.fc.weight.shape[1]
-        embed_dim = student.classifier[1].in_features
+        embed_dim = student.classifier[1].out_features
     else:
         print(f"Unknow architecture: {args.arch}")
 
