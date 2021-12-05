@@ -246,7 +246,7 @@ if __name__ == '__main__':
             top1, top5 = knn_classifier(train_features, train_labels,
                 test_features, test_labels, k, args.temperature)
             print(f"{k}-NN classifier result: Top1: {top1}, Top5: {top5}")
-            f.write(f"model{i}\n")
+#             f.write(f"model{i}\n")
             f.write(f"{k}-NN classifier result: Top1: {top1}, Top5: {top5}\n")
     dist.barrier()
     f.close() 
