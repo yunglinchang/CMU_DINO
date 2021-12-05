@@ -249,4 +249,4 @@ if __name__ == '__main__':
             f.write(f"model{i}\n")
             f.write(f"{k}-NN classifier result: Top1: {top1}, Top5: {top5}\n")
     dist.barrier()
-    f.close()
+    f.close() 
