@@ -217,7 +217,11 @@ if __name__ == '__main__':
     print("git:\n  {}\n".format(utils.get_sha()))
     print("\n".join("%s: %s" % (k, str(v)) for k, v in sorted(dict(vars(args)).items())))
     cudnn.benchmark = True
-
+    
+    import os
+    print(os.getcwd())
+    # import pdb;pdb.set_trace()
+    f=open('./gdrive/MyDrive/ImageNet/eval_log.txt','a')
     if args.load_features:
         train_features = torch.load(os.path.join(args.load_features, "trainfeat.pth"))
         test_features = torch.load(os.path.join(args.load_features, "testfeat.pth"))
@@ -226,8 +230,9 @@ if __name__ == '__main__':
     else:
         # need to extract features !
         train_features, test_features, train_labels, test_labels = extract_feature_pipeline(args)
-
+    
     if utils.get_rank() == 0:
+        
         if args.use_cuda:
             train_features = train_features.cuda()
             test_features = test_features.cuda()
@@ -235,8 +240,13 @@ if __name__ == '__main__':
             test_labels = test_labels.cuda()
 
         print("Features are ready!\nStart the k-NN classification.")
+        i=0
         for k in args.nb_knn:
+            i += 1
             top1, top5 = knn_classifier(train_features, train_labels,
                 test_features, test_labels, k, args.temperature)
             print(f"{k}-NN classifier result: Top1: {top1}, Top5: {top5}")
+            f.write(f"model{i}\n")
+            f.write(f"{k}-NN classifier result: Top1: {top1}, Top5: {top5}\n")
     dist.barrier()
+    f.close()
